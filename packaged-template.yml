@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  BucketName:
+    Type: String
+Resources:
+  DemoFunctionApi:
+    Properties:
+      DefinitionUri: s3://devdeliforcemumbai/deliforceTest-Dev-Dev-swagger-apigateway.json
+      Name: deliforceTest-Dev
+      StageName: Dev
+    Type: AWS::Serverless::Api
+  DemoFunctionApione:
+    Properties:
+      DefinitionUri: s3://devdeliforcemumbai/deliforceTest-Test-Test-swagger-apigateway.json
+      Name: deliforceTest-Test
+      StageName: Test
+    Type: AWS::Serverless::Api
+  DemoFunctionsHello:
+    Properties:
+      Alias: Prod
+      Code:
+        S3Bucket: devdeliforcemumbai
+        S3Key: 0c511e86ceda33d523099657ac768b8f
+      CurrentVersion: 3
+      Name: hello-lambda
+      TargetVersion: 4
+    Type: AWS::Lambda::Function
+  DemoFunctionsdfruity:
+    Properties:
+      AutoPublishAlias: Dev
+      CodeUri: s3://devdeliforcemumbai/274c616cbf52ac59040645ff665c3c53
+      Events:
+        PEvent:
+          Properties:
+            Method: post
+            Path: /fruity
+          Type: Api
+      FunctionName: fruity-lambda
+      Handler: index.handler
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Runtime: nodejs8.10
+      Timeout: 300
+    Type: AWS::Serverless::Function
+  DemoFunctionsworld:
+    Properties:
+      AutoPublishAlias: Dev
+      CodeUri: s3://devdeliforcemumbai/da6204e3480f5137d3e4434357045165
+      Events:
+        PEvent:
+          Properties:
+            Method: post
+            Path: /world
+          Type: Api
+      FunctionName: world-lambda
+      Handler: index.handler
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Runtime: nodejs6.10
+      Timeout: 300
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

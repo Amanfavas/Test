@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  BucketName:
+      Type: String 
+Resources:   
+  DemoFunctionsHello:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Dev
+      FunctionName: hello-lambda
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/demo.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Events:
+        GEvent:
+          Type: Api
+          Properties:
+             Path: /hello
+             Method: get
+
+
+  DemoFunctionsworld:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Dev
+      FunctionName: world-lambda
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_fetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Events:
+        PEvent:
+          Type: Api
+          Properties:
+             Path: /world
+             Method: post
+
+  DemoFunctionsdfruity:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Dev
+      FunctionName: fruity-lambda
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: build/fruity.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Events:
+        PEvent:
+          Type: Api
+          Properties:
+             Path: /fruity
+             Method: post    
+
+  DemoFunctionApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: deliforceTest-Dev
+      StageName: Dev
+      DefinitionUri: s3://devdeliforcemumbai/deliforceTest-Dev-Dev-swagger-apigateway.json
+
+  DemoFunctionApione:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: deliforceTest-Test
+      StageName: Test
+      DefinitionUri: s3://devdeliforcemumbai/deliforceTest-Test-Test-swagger-apigateway.json
+  
+  DemoFunctionsHello:
+    Type: AWS::Lambda::Function
+    Properties:
+      Name: hello-lambda
+      Alias: Prod
+      CurrentVersion: 3
+      TargetVersion: 4
